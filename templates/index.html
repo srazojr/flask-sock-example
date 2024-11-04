@@ -13,11 +13,25 @@
         <label for="text">Input: </label>
         <input type="text" id="text" autofocus>
     </form>
+        <button type="button" onclick="getTest()">test</button>
     <script>
+       
         const log = (text, color) => {
             document.getElementById('log').innerHTML += `<span style="color: ${color}">${text}</span><br>`;
         };
-
+        async function getTest (){
+            try {
+                const response = await fetch('http://127.0.0.1:5000/test');
+                if (!response.ok) {
+                  throw new Error(`Response status: ${response.status}`);
+                }
+            
+                const json = await response.json();
+                log(JSON.stringify(json));
+              } catch (error) {
+                console.error(error.message);
+              }
+        }
         const socket = new WebSocket('ws://127.0.0.1:5000/echo');
         socket.addEventListener('message', ev => {
             log('<<< ' + ev.data, 'blue');

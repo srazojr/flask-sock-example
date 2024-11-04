@@ -3,11 +3,17 @@ from flask_sock import Sock
 import time
 app = Flask(__name__)
 sock = Sock(app)
-
+testcount=0
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/test")
+def test():
+    global testcount
+    testcount+=1
+    return {"status":"ok","count":str(testcount)}
 
 
 @sock.route("/echo")
